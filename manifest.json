@@ -1,0 +1,9 @@
+{
+  "name": "HabitFlow Habit Tracker",
+  "short_name": "HabitFlow",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#8b7cf7",
+  "description": "A simple local habit tracker for daily progress and reflection."
+}

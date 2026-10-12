@@ -1,0 +1,2308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101114">
+
+    <title>HabitFlow — Personal Habit Tracker</title>
+
+    <meta
+        name="description"
+        content="Build better habits, track your daily progress, and become consistent with HabitFlow."
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <!-- =========================================
+         APPLICATION CONTAINER
+    ========================================== -->
+
+    <div class="app-container" id="app">
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">H</div>
+
+                <div class="brand-info">
+                    <h1>HabitFlow</h1>
+                    <span>Personal Growth</span>
+                </div>
+            </div>
+
+            <div class="sidebar-profile">
+
+                <div class="profile-avatar" id="profile-avatar">
+                    GP
+                </div>
+
+                <div class="profile-details">
+                    <h3 id="profile-name">Guest User</h3>
+                    <p id="profile-email">Not signed in</p>
+                </div>
+
+                <button
+                    type="button"
+                    id="profile-menu-button"
+                    class="icon-button"
+                    aria-label="Open profile menu"
+                >
+                    ⋮
+                </button>
+
+            </div>
+
+            <nav class="sidebar-navigation" aria-label="Main navigation">
+
+                <p class="navigation-heading">WORKSPACE</p>
+
+                <button
+                    type="button"
+                    class="nav-item active"
+                    data-page="dashboard"
+                >
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="my-habits"
+                >
+                    <span class="nav-icon">☑</span>
+                    <span>My Habits</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="calendar"
+                >
+                    <span class="nav-icon">▦</span>
+                    <span>Calendar</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="statistics"
+                >
+                    <span class="nav-icon">▥</span>
+                    <span>Statistics</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="achievements"
+                >
+                    <span class="nav-icon">♧</span>
+                    <span>Achievements</span>
+                </button>
+
+                <p class="navigation-heading">PERSONAL</p>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="journal"
+                >
+                    <span class="nav-icon">▤</span>
+                    <span>Daily Journal</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="goals"
+                >
+                    <span class="nav-icon">◎</span>
+                    <span>My Goals</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-item"
+                    data-page="settings"
+                >
+                    <span class="nav-icon">⚙</span>
+                    <span>Settings</span>
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">✦</div>
+
+                    <h3>Your growth journey</h3>
+
+                    <p>
+                        Small actions every day lead to
+                        remarkable results.
+                    </p>
+
+                    <button
+                        type="button"
+                        id="view-progress-button"
+                    >
+                        View Progress
+                    </button>
+                </div>
+
+                <div class="sidebar-footer">
+                    <span>HabitFlow</span>
+                    <span>Version 1.0</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================
+             MAIN APPLICATION
+        ====================================== -->
+
+        <div class="main-area">
+
+            <!-- TOP NAVIGATION -->
+
+            <header class="topbar">
+
+                <div class="topbar-left">
+
+                    <button
+                        type="button"
+                        id="sidebar-toggle"
+                        class="icon-button"
+                        aria-label="Toggle sidebar"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="breadcrumb">
+                        <span>Workspace</span>
+                        <span>/</span>
+                        <strong id="current-page-title">
+                            Dashboard
+                        </strong>
+                    </div>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <form id="search-form" role="search">
+                        <label for="global-search" class="sr-only">
+                            Search habits
+                        </label>
+
+                        <input
+                            type="search"
+                            id="global-search"
+                            placeholder="Search habits..."
+                        >
+
+                        <button type="submit" aria-label="Search">
+                            ⌕
+                        </button>
+                    </form>
+
+                    <button
+                        type="button"
+                        id="theme-toggle"
+                        class="icon-button"
+                        aria-label="Toggle theme"
+                    >
+                        ☼
+                    </button>
+
+                    <button
+                        type="button"
+                        id="notification-button"
+                        class="icon-button notification-button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="topbar-avatar"
+                        id="topbar-avatar"
+                        aria-label="Account"
+                    >
+                        GP
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 PAGE CONTENT
+            ================================== -->
+
+            <main class="page-content">
+
+                <!-- DASHBOARD PAGE -->
+
+                <section
+                    class="page-section active"
+                    id="page-dashboard"
+                    data-page-section="dashboard"
+                >
+
+                    <div class="welcome-section">
+
+                        <div class="welcome-text">
+                            <p class="eyebrow" id="current-date">
+                                YOUR PERSONAL DASHBOARD
+                            </p>
+
+                            <h2 id="welcome-heading">
+                                Welcome back! 👋
+                            </h2>
+
+                            <p>
+                                Add one small habit, complete it today,
+                                and build your progress one day at a time.
+                            </p>
+                        </div>
+
+                        <div class="welcome-actions">
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                id="view-calendar-button"
+                            >
+                                ▦ View Calendar
+                            </button>
+
+                            <button
+                                type="button"
+                                class="primary-button"
+                                id="open-add-habit"
+                            >
+                                + New Habit
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <section class="beginner-guide" aria-label="Getting started guide">
+                        <div class="guide-title">
+                            <span class="guide-badge">START HERE</span>
+                            <h3>Three easy steps</h3>
+                            <p>You do not need to set up everything at once.</p>
+                        </div>
+                        <div class="guide-steps">
+                            <div class="guide-step"><span>1</span><div><strong>Add a habit</strong><small>Choose one action you want to repeat.</small></div></div>
+                            <div class="guide-step"><span>2</span><div><strong>Mark it complete</strong><small>Press Complete when you finish it.</small></div></div>
+                            <div class="guide-step"><span>3</span><div><strong>Check your progress</strong><small>Use the calendar and graphs to stay motivated.</small></div></div>
+                        </div>
+                    </section>
+
+
+                    <!-- DAILY SUMMARY CARDS -->
+
+                    <div class="stats-grid">
+
+                        <article class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Total Habits</span>
+                                <span class="stat-icon">☑</span>
+                            </div>
+
+                            <h3 id="total-habits-stat">0</h3>
+
+                            <p>Habits in your routine</p>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Completed Today</span>
+                                <span class="stat-icon">✓</span>
+                            </div>
+
+                            <h3 id="completed-today-stat">0</h3>
+
+                            <p id="completed-summary">
+                                Keep making progress
+                            </p>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Current Streak</span>
+                                <span class="stat-icon">♨</span>
+                            </div>
+
+                            <h3 id="current-streak-stat">0 days</h3>
+
+                            <p>Consecutive active days</p>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Completion Rate</span>
+                                <span class="stat-icon">↗</span>
+                            </div>
+
+                            <h3 id="completion-rate-stat">0%</h3>
+
+                            <p>Today's completion rate</p>
+                        </article>
+
+                    </div>
+
+
+                    <!-- MAIN DASHBOARD GRID -->
+
+                    <div class="dashboard-grid">
+
+                        <!-- DAILY HABITS -->
+
+                        <section class="panel habits-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <p class="eyebrow">YOUR ROUTINE</p>
+                                    <h3>Today's Habits</h3>
+                                    <p class="panel-description">
+                                        Stay consistent, one task at a time.
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="text-button"
+                                    data-page="my-habits"
+                                >
+                                    View all →
+                                </button>
+
+                            </div>
+
+
+                            <div class="habit-date-toolbar">
+
+                                <button
+                                    type="button"
+                                    id="previous-day"
+                                    aria-label="Previous day"
+                                >
+                                    ‹
+                                </button>
+
+                                <time id="selected-date"></time>
+
+                                <button
+                                    type="button"
+                                    id="next-day"
+                                    aria-label="Next day"
+                                >
+                                    ›
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="today-button"
+                                >
+                                    Today
+                                </button>
+
+                            </div>
+
+
+                            <div class="daily-progress">
+
+                                <div class="daily-progress-header">
+                                    <span>Daily progress</span>
+
+                                    <strong id="daily-progress-label">
+                                        0 / 0 completed
+                                    </strong>
+                                </div>
+
+                                <progress
+                                    id="daily-progress-bar"
+                                    value="0"
+                                    max="100"
+                                >
+                                    0%
+                                </progress>
+
+                            </div>
+
+
+                            <div
+                                class="habit-list"
+                                id="dashboard-habit-list"
+                            >
+
+                                <!-- JavaScript will render habits here. -->
+
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">☑</div>
+
+                                    <h4>Your journey starts here</h4>
+
+                                    <p>
+                                        Add your first habit and
+                                        start building consistency.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="add-habit-link"
+                                id="add-habit-from-list"
+                            >
+                                + Add another habit
+                            </button>
+
+                        </section>
+
+
+                        <!-- WEEKLY OVERVIEW -->
+
+                        <section class="panel weekly-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <p class="eyebrow">YOUR CONSISTENCY</p>
+                                    <h3>Weekly Overview</h3>
+                                </div>
+
+                                <select
+                                    id="weekly-period"
+                                    aria-label="Weekly overview period"
+                                >
+                                    <option value="current">
+                                        This week
+                                    </option>
+
+                                    <option value="previous">
+                                        Last week
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="weekly-summary">
+
+                                <div>
+                                    <span class="summary-label">
+                                        Weekly completion
+                                    </span>
+
+                                    <h2 id="weekly-completion">0%</h2>
+                                </div>
+
+                                <div class="weekly-trend" id="weekly-trend">
+                                    Keep going!
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="weekly-chart"
+                                id="weekly-chart"
+                                role="img"
+                                aria-label="Weekly habit completion chart"
+                            >
+
+                                <!-- JavaScript will render the chart. -->
+
+                                <p class="chart-placeholder">
+                                    Your weekly progress will appear here.
+                                </p>
+
+                            </div>
+
+
+                            <div class="chart-legend">
+                                <span class="legend-dot completed-dot"></span>
+                                <span>Completed</span>
+
+                                <span class="legend-dot remaining-dot"></span>
+                                <span>Remaining</span>
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- SECOND DASHBOARD ROW -->
+
+                    <div class="dashboard-grid secondary-grid">
+
+                        <!-- HABIT CATEGORIES -->
+
+                        <section class="panel category-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <p class="eyebrow">BALANCED LIVING</p>
+                                    <h3>Habit Categories</h3>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="icon-button"
+                                    aria-label="Category options"
+                                >
+                                    ⋯
+                                </button>
+
+                            </div>
+
+
+                            <div class="category-list">
+
+                                <div class="category-item">
+                                    <span class="category-icon">
+                                        📚
+                                    </span>
+
+                                    <div class="category-details">
+                                        <strong>Learning</strong>
+                                        <span>Study and skill development</span>
+                                    </div>
+
+                                    <strong id="learning-count">0</strong>
+                                </div>
+
+                                <div class="category-item">
+                                    <span class="category-icon">
+                                        💪
+                                    </span>
+
+                                    <div class="category-details">
+                                        <strong>Health</strong>
+                                        <span>Exercise and wellness</span>
+                                    </div>
+
+                                    <strong id="health-count">0</strong>
+                                </div>
+
+                                <div class="category-item">
+                                    <span class="category-icon">
+                                        🧠
+                                    </span>
+
+                                    <div class="category-details">
+                                        <strong>Mindfulness</strong>
+                                        <span>Reading and reflection</span>
+                                    </div>
+
+                                    <strong id="mindfulness-count">0</strong>
+                                </div>
+
+                                <div class="category-item">
+                                    <span class="category-icon">
+                                        🎯
+                                    </span>
+
+                                    <div class="category-details">
+                                        <strong>Productivity</strong>
+                                        <span>Focus and daily planning</span>
+                                    </div>
+
+                                    <strong id="productivity-count">0</strong>
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- STREAKS -->
+
+                        <section class="panel streak-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <p class="eyebrow">KEEP THE MOMENTUM</p>
+                                    <h3>Habit Streaks</h3>
+                                </div>
+
+                                <span class="streak-badge">🔥</span>
+
+                            </div>
+
+
+                            <div
+                                id="streak-list"
+                                class="streak-list"
+                            >
+
+                                <div class="empty-state">
+                                    <p>
+                                        Complete habits regularly
+                                        to build your streaks.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="text-button"
+                                data-page="statistics"
+                            >
+                                Explore statistics →
+                            </button>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- MOTIVATION CARD -->
+
+                    <section class="motivation-panel">
+
+                        <div class="motivation-decoration">
+                            ✦
+                        </div>
+
+                        <div class="motivation-content">
+                            <p class="eyebrow">A LITTLE REMINDER</p>
+
+                            <h3 id="daily-quote">
+                                You don't have to be perfect.
+                                You just have to keep showing up.
+                            </h3>
+
+                            <p>
+                                Progress is built through small,
+                                repeated actions.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="new-quote-button"
+                            class="secondary-button"
+                        >
+                            New inspiration ↗
+                        </button>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================
+                     MY HABITS PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-my-habits"
+                    data-page-section="my-habits"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">YOUR DAILY ROUTINE</p>
+                            <h2>My Habits</h2>
+
+                            <p>
+                                Create and manage the routines
+                                you want to build.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="primary-button"
+                            id="my-habits-add-button"
+                        >
+                            + Create Habit
+                        </button>
+
+                    </div>
+
+
+                    <div class="filter-toolbar">
+
+                        <label for="habit-filter">
+                            Category
+                        </label>
+
+                        <select id="habit-filter">
+                            <option value="all">All categories</option>
+                            <option value="learning">Learning</option>
+                            <option value="health">Health</option>
+                            <option value="mindfulness">Mindfulness</option>
+                            <option value="productivity">Productivity</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                        <label for="habit-status-filter">
+                            Status
+                        </label>
+
+                        <select id="habit-status-filter">
+                            <option value="all">All habits</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Not completed</option>
+                        </select>
+
+                        <label for="habit-sort">
+                            Sort by
+                        </label>
+
+                        <select id="habit-sort">
+                            <option value="created">Recently created</option>
+                            <option value="name">Habit name</option>
+                            <option value="streak">Current streak</option>
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        id="full-habit-list"
+                        class="full-habit-list"
+                    >
+                        <!-- JavaScript will render habit cards here. -->
+                    </div>
+
+                </section>
+
+
+                <!-- =================================
+                     CALENDAR PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-calendar"
+                    data-page-section="calendar"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">YOUR HISTORY</p>
+                            <h2>Habit Calendar</h2>
+
+                            <p>
+                                Review your consistency over time.
+                            </p>
+                        </div>
+
+                        <div class="calendar-controls">
+
+                            <button
+                                type="button"
+                                id="calendar-previous-month"
+                                aria-label="Previous month"
+                            >
+                                ‹
+                            </button>
+
+                            <strong id="calendar-month-label">
+                                Month Year
+                            </strong>
+
+                            <button
+                                type="button"
+                                id="calendar-next-month"
+                                aria-label="Next month"
+                            >
+                                ›
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <section class="panel calendar-panel">
+
+                        <div
+                            class="calendar-grid"
+                            id="calendar-grid"
+                            aria-label="Monthly habit calendar"
+                        >
+
+                            <!-- JavaScript will render calendar days. -->
+
+                        </div>
+
+                        <div class="calendar-legend">
+                            <span class="legend-dot completed-dot"></span>
+                            <span>Completed</span>
+
+                            <span class="legend-dot remaining-dot"></span>
+                            <span>Incomplete</span>
+
+                            <span class="legend-dot empty-dot"></span>
+                            <span>No records</span>
+                        </div>
+
+                    </section>
+
+
+                    <section class="panel selected-day-panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <p class="eyebrow">DAILY DETAILS</p>
+                                <h3 id="calendar-selected-date">
+                                    Select a date
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div id="calendar-day-details">
+                            <p>
+                                Select a date to review that day's
+                                habit completion records.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================
+                     STATISTICS PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-statistics"
+                    data-page-section="statistics"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">MEASURE YOUR PROGRESS</p>
+                            <h2>Statistics</h2>
+
+                            <p>
+                                Understand your consistency
+                                and discover patterns.
+                            </p>
+                        </div>
+
+                        <select
+                            id="statistics-period"
+                            aria-label="Statistics period"
+                        >
+                            <option value="1">Today</option>
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 1 month</option>
+                            <option value="90">Last 3 months</option>
+                            <option value="180">Last 6 months</option>
+                            <option value="365">Last 1 year</option>
+                            <option value="730">Last 2 years</option>
+                            <option value="1095">Last 3 years</option>
+                            <option value="1460">Last 4 years</option>
+                            <option value="1825">Last 5 years</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="stats-grid">
+
+                        <article class="stat-card">
+                            <span>Total completions</span>
+                            <h3 id="total-completions-stat">0</h3>
+                            <p>Recorded habit completions</p>
+                        </article>
+
+                        <article class="stat-card">
+                            <span>Best streak</span>
+                            <h3 id="best-streak-stat">0 days</h3>
+                            <p>Your longest streak</p>
+                        </article>
+
+                        <article class="stat-card">
+                            <span>Best day</span>
+                            <h3 id="best-day-stat">—</h3>
+                            <p id="best-day-description">Highest completion rate</p>
+                        </article>
+
+                        <article class="stat-card">
+                            <span>Active habits</span>
+                            <h3 id="active-habits-stat">0</h3>
+                            <p>Habits currently tracked</p>
+                        </article>
+
+                    </div>
+
+
+                    <section class="panel statistics-chart-panel statistics-overview-panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <p class="eyebrow">YOUR PROGRESS</p>
+                                <h3>Consistency at a glance</h3>
+                                <p class="panel-description" id="statistics-summary">Choose a time period to see your progress.</p>
+                            </div>
+                        </div>
+
+                        <div class="statistics-legend" aria-hidden="true">
+                            <span><i class="legend-dot"></i>Completed</span>
+                            <span>0% &nbsp;–&nbsp; 100%</span>
+                        </div>
+
+                        <div id="statistics-chart" class="statistics-chart" role="img" aria-label="Habit completion history chart">
+                            <p>Your completion history will appear here.</p>
+                        </div>
+
+                        <div id="statistics-line-chart" class="statistics-line-chart" role="img" aria-label="Habit progress trend line chart"></div>
+
+                    </section>
+
+                    <section class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <p class="eyebrow">HABIT PERFORMANCE</p>
+                                <h3>Habit performance</h3>
+                                <p class="panel-description">A simple view of how often each habit is completed.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+
+                            <table id="habit-statistics-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Habit</th>
+                                        <th>Done</th>
+                                        <th>Success</th>
+                                        <th>Current streak</th>
+                                        <th>Best streak</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="habit-statistics-body">
+                                    <!-- JavaScript will render rows. -->
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================
+                     ACHIEVEMENTS PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-achievements"
+                    data-page-section="achievements"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">CELEBRATE YOUR PROGRESS</p>
+                            <h2>Achievements</h2>
+
+                            <p>
+                                Every milestone is proof
+                                of your effort.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="achievement-summary">
+
+                        <div class="panel">
+                            <span>Achievements unlocked</span>
+                            <h3 id="achievements-unlocked">0</h3>
+                        </div>
+
+                        <div class="panel">
+                            <span>Total achievements</span>
+                            <h3 id="achievements-total">6</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="achievements-grid"
+                        class="achievements-grid"
+                    >
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="first-habit"
+                        >
+                            <div class="achievement-icon">🌱</div>
+                            <h3>First Step</h3>
+                            <p>Create your first habit.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="first-completion"
+                        >
+                            <div class="achievement-icon">✓</div>
+                            <h3>Getting Started</h3>
+                            <p>Complete your first habit.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="three-day-streak"
+                        >
+                            <div class="achievement-icon">🔥</div>
+                            <h3>Three-Day Streak</h3>
+                            <p>Maintain a three-day streak.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="seven-day-streak"
+                        >
+                            <div class="achievement-icon">🏅</div>
+                            <h3>One Week Strong</h3>
+                            <p>Maintain a seven-day streak.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="ten-completions"
+                        >
+                            <div class="achievement-icon">⭐</div>
+                            <h3>Consistency</h3>
+                            <p>Record ten habit completions.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                        <article
+                            class="achievement-card"
+                            data-achievement="thirty-completions"
+                        >
+                            <div class="achievement-icon">🏆</div>
+                            <h3>Habit Builder</h3>
+                            <p>Record thirty habit completions.</p>
+                            <span class="achievement-status">
+                                Locked
+                            </span>
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================
+                     DAILY JOURNAL PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-journal"
+                    data-page-section="journal"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">REFLECT AND GROW</p>
+                            <h2>Daily Journal</h2>
+
+                            <p>
+                                Record your thoughts,
+                                challenges, and achievements.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <section class="panel journal-panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <p class="eyebrow">TODAY'S REFLECTION</p>
+                                <h3 id="journal-date"></h3>
+                            </div>
+                            <div class="journal-date-controls">
+                                <button type="button" id="journal-previous-day" class="icon-button" aria-label="Previous journal day">‹</button>
+                                <button type="button" id="journal-today" class="secondary-button">Today</button>
+                                <button type="button" id="journal-next-day" class="icon-button" aria-label="Next journal day">›</button>
+                            </div>
+                        </div>
+
+                        <div class="journal-welcome">
+                            <span class="journal-welcome-icon">✦</span>
+                            <div>
+                                <strong>A two-minute check-in</strong>
+                                <p>There are no wrong answers. A few honest sentences are enough.</p>
+                            </div>
+                        </div>
+
+
+                        <form id="journal-form">
+
+                            <div class="form-field">
+
+                                <label for="journal-mood">
+                                    How are you feeling today?
+                                </label>
+
+                                <select id="journal-mood">
+                                    <option value="">Select your mood</option>
+                                    <option value="excellent">
+                                        😄 Excellent
+                                    </option>
+                                    <option value="good">
+                                        🙂 Good
+                                    </option>
+                                    <option value="okay">
+                                        😐 Okay
+                                    </option>
+                                    <option value="low">
+                                        😔 Low
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="journal-wins">
+                                    What went well today?
+                                </label>
+
+                                <textarea
+                                    id="journal-wins"
+                                    rows="4"
+                                    placeholder="Write down your wins..."
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="journal-challenges">
+                                    What challenged you today?
+                                </label>
+
+                                <textarea
+                                    id="journal-challenges"
+                                    rows="4"
+                                    placeholder="Describe any challenges..."
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="journal-improvement">
+                                    What will you improve tomorrow?
+                                </label>
+
+                                <textarea
+                                    id="journal-improvement"
+                                    rows="4"
+                                    placeholder="Write one small improvement..."
+                                ></textarea>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                            >
+                                Save Today's Reflection
+                            </button>
+
+                            <p id="journal-save-status" class="journal-save-status" aria-live="polite"></p>
+
+                        </form>
+
+                        <div class="journal-reminders">
+                            <div><strong>Need a prompt?</strong><span>What is one thing you are proud of today?</span></div>
+                            <div><strong>Keep it simple</strong><span>One sentence is still meaningful progress.</span></div>
+                        </div>
+
+                        <section class="journal-history" aria-labelledby="journal-history-title">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="eyebrow">YOUR JOURNAL</p>
+                                    <h3 id="journal-history-title">Past reflections</h3>
+                                </div>
+                                <span id="journal-history-count" class="journal-history-count">0 saved</span>
+                            </div>
+                            <label class="sr-only" for="journal-history-search">Search past reflections</label>
+                            <input id="journal-history-search" class="journal-history-search" type="search" placeholder="Search your reflections..." autocomplete="off">
+                            <div id="journal-history-list" class="journal-history-list" aria-live="polite"></div>
+                        </section>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================
+                     GOALS PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-goals"
+                    data-page-section="goals"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">THINK LONG TERM</p>
+                            <h2>My Goals</h2>
+
+                            <p>
+                                Connect your daily habits
+                                to meaningful goals.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="primary-button"
+                            id="add-goal-button"
+                        >
+                            + New Goal
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="goals-list"
+                        class="goals-list"
+                    >
+
+                        <!-- JavaScript will render goals here. -->
+
+                    </div>
+
+
+                    <section class="panel goal-form-panel">
+
+                        <h3>Create a Goal</h3>
+
+                        <form id="goal-form">
+
+                            <div class="form-field">
+
+                                <label for="goal-title">
+                                    Goal title
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="goal-title"
+                                    placeholder="Example: Learn Python"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="goal-description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="goal-description"
+                                    rows="3"
+                                    placeholder="Describe your goal..."
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="goal-deadline">
+                                    Target date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="goal-deadline"
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                            >
+                                Save Goal
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================
+                     SETTINGS PAGE
+                ================================== -->
+
+                <section
+                    class="page-section"
+                    id="page-settings"
+                    data-page-section="settings"
+                    hidden
+                >
+
+                    <div class="page-heading">
+
+                        <div>
+                            <p class="eyebrow">MAKE IT YOURS</p>
+                            <h2>Settings</h2>
+
+                            <p>
+                                Manage your account
+                                and application preferences.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <section class="panel settings-panel">
+
+                        <h3>Profile Information</h3>
+
+                        <form id="profile-form">
+
+                            <div class="form-field">
+
+                                <label for="settings-name">
+                                    Display name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="settings-name"
+                                    placeholder="Your name"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label for="settings-email">
+                                    Email address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="settings-email"
+                                    placeholder="you@example.com"
+                                    readonly
+                                >
+
+                                <small>
+                                    Your login email is managed
+                                    by the authentication service.
+                                </small>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                            >
+                                Save Profile
+                            </button>
+
+                        </form>
+
+                    </section>
+
+
+                    <section class="panel settings-panel">
+
+                        <h3>Appearance</h3>
+
+                        <div class="settings-row">
+
+                            <div>
+                                <strong>Dark mode</strong>
+                                <p>Choose a color style that feels right for you.</p>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="settings-theme-toggle"
+                                class="secondary-button"
+                            >
+                                Toggle Theme
+                            </button>
+
+                        </div>
+
+                        <div class="settings-row theme-picker-row">
+                            <div>
+                                <strong>Color theme</strong>
+                                <p>Change the mood of your workspace.</p>
+                            </div>
+                            <select id="theme-select" aria-label="Choose color theme">
+                                <option value="midnight">Midnight</option>
+                                <option value="ocean">Ocean</option>
+                                <option value="forest">Forest</option>
+                                <option value="sunset">Sunset</option>
+                                <option value="lavender">Lavender</option>
+                                <option value="rose">Rose</option>
+                                <option value="emerald">Emerald</option>
+                                <option value="amber">Amber</option>
+                                <option value="high-contrast">High Contrast</option>
+                                <option value="coffee">Coffee</option>
+                                <option value="cyber">Cyber Neon</option>
+                                <option value="light">Clean Light</option>
+                            </select>
+                        </div>
+
+                    </section>
+
+
+                    <section class="panel settings-panel">
+
+                        <h3>Data Management</h3>
+
+                        <p>
+                            Manage your saved habits and
+                            personal information.
+                        </p>
+
+                        <div class="account-status-card">
+                            <div>
+                                <strong id="account-status">Using HabitFlow as a guest</strong>
+                                <p id="account-status-note">Your journal stays on this device in local storage.</p>
+                            </div>
+                            <div class="account-actions">
+                                <button type="button" id="account-login-button" class="secondary-button">Log In</button>
+                                <button type="button" id="account-create-button" class="primary-button">Create Account</button>
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="export-data-button"
+                            class="secondary-button"
+                        >
+                            Export My Data
+                        </button>
+
+                        <button
+                            type="button"
+                            id="import-data-button"
+                            class="secondary-button"
+                        >
+                            Restore Backup
+                        </button>
+
+                        <input type="file" id="import-data-input" accept="application/json,.json" hidden>
+
+                        <p class="settings-note">
+                            Backups include your habits and journal entries. Keep the file somewhere safe if you want to move this account to another browser or device.
+                        </p>
+
+                        <button
+                            type="button"
+                            id="reset-data-button"
+                            class="danger-button"
+                        >
+                            Reset Habit Data
+                        </button>
+
+                        <button
+                            type="button"
+                            id="logout-button"
+                            class="secondary-button"
+                            hidden
+                        >
+                            Log Out
+                        </button>
+
+                    </section>
+
+                </section>
+
+            </main>
+
+
+            <!-- =================================
+                 FOOTER
+            ================================== -->
+
+            <footer class="app-footer">
+
+                <p>
+                    © <span id="footer-year"></span> HabitFlow.
+                    Made for your growth.
+                </p>
+
+                <div class="footer-links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#help">Help</a>
+                </div>
+
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         ADD / EDIT HABIT MODAL
+    ========================================== -->
+
+    <dialog
+        id="habit-modal"
+        class="modal"
+        aria-labelledby="habit-modal-title"
+    >
+
+        <div class="modal-header">
+
+            <div>
+                <p class="eyebrow">BUILD A BETTER ROUTINE</p>
+
+                <h2 id="habit-modal-title">
+                    Create a New Habit
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                id="close-habit-modal"
+                class="icon-button"
+                aria-label="Close habit form"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="habit-form">
+
+            <input type="hidden" id="habit-id">
+
+
+            <div class="form-field">
+
+                <label for="habit-name">
+                    Habit name *
+                </label>
+
+                <input
+                    type="text"
+                    id="habit-name"
+                    placeholder="Example: Study for 30 minutes"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label for="habit-description">
+                    Description
+                </label>
+
+                <textarea
+                    id="habit-description"
+                    rows="3"
+                    maxlength="500"
+                    placeholder="Why is this habit important to you?"
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label for="habit-category">
+                        Category
+                    </label>
+
+                    <select id="habit-category">
+
+                        <option value="learning">Learning</option>
+                        <option value="health">Health</option>
+                        <option value="mindfulness">Mindfulness</option>
+                        <option value="productivity">Productivity</option>
+                        <option value="other">Other</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="habit-frequency">
+                        Frequency
+                    </label>
+
+                    <select id="habit-frequency">
+
+                        <option value="daily">Every day</option>
+                        <option value="weekdays">Weekdays</option>
+                        <option value="weekends">Weekends</option>
+                        <option value="custom">Custom days</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <fieldset
+                class="form-field"
+                id="custom-days-field"
+                hidden
+            >
+
+                <legend>Choose your days</legend>
+
+                <div class="weekday-selector">
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="1">
+                        Mon
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="2">
+                        Tue
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="3">
+                        Wed
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="4">
+                        Thu
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="5">
+                        Fri
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="6">
+                        Sat
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="habit-day" value="0">
+                        Sun
+                    </label>
+
+                </div>
+
+            </fieldset>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label for="habit-target-value">Goal amount</label>
+
+                    <input
+                        type="number"
+                        id="habit-target-value"
+                        min="0.1"
+                        step="0.1"
+                        value="1"
+                        inputmode="decimal"
+                    >
+
+                </div>
+
+                <div class="form-field">
+
+                    <label for="habit-target-unit">Track progress in</label>
+
+                    <select id="habit-target-unit">
+                        <option value="complete">Completed habit</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Hours</option>
+                        <option value="pages">Pages</option>
+                        <option value="times">Times</option>
+                        <option value="items">Items</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="form-field">
+
+                <label for="habit-target-step">Quick-add amount</label>
+
+                <input
+                    type="number"
+                    id="habit-target-step"
+                    min="0.1"
+                    step="0.1"
+                    value="1"
+                    inputmode="decimal"
+                >
+
+                <small>Choose how much the + button should add. For example, 15 minutes or 5 pages.</small>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label for="habit-reminder">
+                        Reminder time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="habit-reminder"
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="habit-color">
+                        Habit color
+                    </label>
+
+                    <select id="habit-color">
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="orange">Orange</option>
+                        <option value="purple">Purple</option>
+                        <option value="pink">Pink</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancel-habit"
+                    class="secondary-button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Save Habit
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+
+    <!-- =========================================
+         AUTHENTICATION PAGE
+    ========================================== -->
+
+    <section
+        id="auth-screen"
+        class="auth-screen"
+        aria-labelledby="auth-heading"
+        hidden
+    >
+
+        <div class="auth-brand">
+            <div class="brand-icon">H</div>
+            <span>HabitFlow</span>
+        </div>
+
+
+        <div class="auth-card">
+
+            <div class="auth-heading">
+
+                <div class="auth-icon">✦</div>
+
+                <h1 id="auth-heading">
+                    Welcome to HabitFlow
+                </h1>
+
+                <p id="auth-description">
+                    Build better habits, one day at a time.
+                </p>
+
+            </div>
+
+
+            <div class="auth-tabs" role="tablist">
+
+                <button
+                    type="button"
+                    id="login-tab"
+                    class="auth-tab active"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="login-panel"
+                >
+                    Log In
+                </button>
+
+                <button
+                    type="button"
+                    id="register-tab"
+                    class="auth-tab"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="register-panel"
+                >
+                    Create Account
+                </button>
+
+            </div>
+
+            <div class="auth-local-note" role="note">
+                <span aria-hidden="true">🔒</span>
+                <span>Local mode: your account and journal stay on this device.</span>
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="login-panel" class="auth-form">
+
+                <div class="form-field">
+
+                    <label for="login-email">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="login-email"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="login-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button type="button" class="password-toggle" data-password-target="login-password">Show</button>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="forgot-password-button"
+                    class="text-button"
+                >
+                    Forgot password?
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button auth-submit"
+                >
+                    Log In
+                </button>
+
+
+                <p
+                    id="login-message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+
+            <!-- REGISTRATION FORM -->
+
+            <form
+                id="register-panel"
+                class="auth-form"
+                hidden
+            >
+
+                <div class="form-field">
+
+                    <label for="register-name">
+                        Your name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="register-name"
+                        autocomplete="name"
+                        placeholder="Enter your name"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="register-email">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="register-email"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="register-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="register-password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        placeholder="At least 8 characters"
+                        required
+                    >
+
+                    <button type="button" class="password-toggle" data-password-target="register-password">Show</button>
+
+                    <small id="register-password-hint" class="field-hint">Use 8+ characters with a number and a letter.</small>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="register-confirm-password">
+                        Confirm password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="register-confirm-password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        placeholder="Re-enter your password"
+                        required
+                    >
+
+                    <button type="button" class="password-toggle" data-password-target="register-confirm-password">Show</button>
+
+                </div>
+
+
+                <label class="checkbox-field">
+                    <input
+                        type="checkbox"
+                        id="accept-terms"
+                        required
+                    >
+
+                    <span>
+                        I agree to the
+                        <a href="#terms">Terms of Service</a>
+                        and
+                        <a href="#privacy">Privacy Policy</a>.
+                    </span>
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="primary-button auth-submit"
+                >
+                    Create Account
+                </button>
+
+
+                <p
+                    id="register-message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+
+            <!-- PASSWORD RECOVERY FORM -->
+
+            <form id="recovery-panel" class="auth-form" hidden>
+
+                <h3>Reset your password</h3>
+
+                <p>
+                    Reset the local account on this device. No email is sent.
+                </p>
+
+                <div class="form-field">
+
+                    <label for="recovery-email">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="recovery-email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-field">
+                    <label for="recovery-password">New password</label>
+                    <input type="password" id="recovery-password" autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="recovery-confirm-password">Confirm new password</label>
+                    <input type="password" id="recovery-confirm-password" autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <button
+                    type="submit"
+                    class="primary-button auth-submit"
+                >
+                    Reset Password Locally
+                </button>
+
+                <button
+                    type="button"
+                    id="back-to-login"
+                    class="secondary-button"
+                >
+                    Back to Login
+                </button>
+
+                <p
+                    id="recovery-message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+
+            <p class="auth-footer">
+                Your journey toward consistency starts here.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CONFIRMATION DIALOG
+    ========================================== -->
+
+    <dialog
+        id="confirmation-modal"
+        class="modal confirmation-modal"
+    >
+
+        <div class="modal-header">
+
+            <h2 id="confirmation-title">
+                Are you sure?
+            </h2>
+
+            <button
+                type="button"
+                id="close-confirmation"
+                class="icon-button"
+                aria-label="Close confirmation"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <p id="confirmation-message">
+            Please confirm this action.
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                id="cancel-confirmation"
+                class="secondary-button"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="confirm-action"
+                class="danger-button"
+            >
+                Confirm
+            </button>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- =========================================
+         TOAST NOTIFICATIONS
+    ========================================== -->
+
+    <div
+        id="toast-container"
+        class="toast-container"
+        aria-live="polite"
+        aria-atomic="true"
+    >
+
+        <!-- JavaScript will insert notifications here. -->
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+<script src="./script.js"></script>
+
+
+</body>
+</html>
